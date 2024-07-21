@@ -111,15 +111,17 @@ function addStudent(studentData) {
         studentData.studentNum = dataCollection.students.length + 1
         dataCollection.students.push(studentData)
 
-        fs.writeFile("./data/students.json", JSON.stringify(dataCollection.students), function (error) {
-            if (error) {
-                console.log(error);
-                reject(error);
-                return;
-            }
+        resolve("Student has been added!")
 
-            resolve("Student has been added!")
-        })
+        // fs.writeFile("./data/students.json", JSON.stringify(dataCollection.students), function (error) {
+        //     if (error) {
+        //         console.log(error);
+        //         reject(error);
+        //         return;
+        //     }
+
+        //     resolve("Student has been added!")
+        // })
     });
 }
 
@@ -137,15 +139,17 @@ function updateStudent(studentData) {
         dataCollection.students[studentIndex].status = studentData.status;
         dataCollection.students[studentIndex].course = parseInt(studentData.course);
 
-        fs.writeFile("./data/students.json", JSON.stringify(dataCollection.students), function (error) {
-            if (error) {
-                console.log(error);
-                reject(error);
-                return;
-            }
+        resolve("Student has been updated!")
 
-            resolve("Student has been updated!")
-        })
+        // fs.writeFile("./data/students.json", JSON.stringify(dataCollection.students), function (error) {
+        //     if (error) {
+        //         console.log(error);
+        //         reject(error);
+        //         return;
+        //     }
+
+        //     resolve("Student has been updated!")
+        // })
     });
 }
 
