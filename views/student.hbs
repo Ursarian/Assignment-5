@@ -3,7 +3,7 @@
         <br>
         <h2>{{student.firstName}} {{student.lastName}} - Student: {{student.studentNum}}</h2>
         <hr />
-        <form method="post" acMon="/student/update">
+        <form method="post" action="/student/update">
             <input type="hidden" name="studentNum" value="{{student.studentNum}}" />
             <fieldset>
                 <legend>Personal Information</legend>

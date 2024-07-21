@@ -100,6 +100,55 @@ function getStudentByCourse(input) {
     });
 }
 
+function addStudent(studentData) {
+    return new Promise((resolve, reject) => {
+        if (studentData.TA) {
+            studentData.TA = true
+        } else {
+            studentData.TA = false
+        }
+
+        studentData.studentNum = dataCollection.students.length + 1
+        dataCollection.students.push(studentData)
+
+        fs.writeFile("./data/students.json", JSON.stringify(dataCollection.students), function (error) {
+            if (error) {
+                console.log(error);
+                reject(error);
+                return;
+            }
+
+            resolve("Student has been added!")
+        })
+    });
+}
+
+function updateStudent(studentData) {
+    return new Promise((resolve, reject) => {
+        studentIndex = dataCollection.students.findIndex((student) => student.studentNum == studentData.studentNum);
+
+        dataCollection.students[studentIndex].firstName = studentData.firstName;
+        dataCollection.students[studentIndex].lastName = studentData.lastName;
+        dataCollection.students[studentIndex].email = studentData.email;
+        dataCollection.students[studentIndex].addressStreet = studentData.addressStreet;
+        dataCollection.students[studentIndex].addressCity = studentData.addressCity;
+        dataCollection.students[studentIndex].addressProvince = studentData.addressProvince;
+        dataCollection.students[studentIndex].TA = studentData.TA ? true : false;
+        dataCollection.students[studentIndex].status = studentData.status;
+        dataCollection.students[studentIndex].course = parseInt(studentData.course);
+
+        fs.writeFile("./data/students.json", JSON.stringify(dataCollection.students), function (error) {
+            if (error) {
+                console.log(error);
+                reject(error);
+                return;
+            }
+
+            resolve("Student has been updated!")
+        })
+    });
+}
+
 function getCourses() {
     return new Promise((resolve, reject) => {
         if (dataCollection.courses.length > 0) {
@@ -138,32 +187,13 @@ function getCourseByID(input) {
     });
 }
 
-function addStudent(student) {
-    return new Promise((resolve, reject) => {
-        if (!student.TA) {
-            student.TA = false
-        }
-        student.studentNum = dataCollection.students.length + 1
-        dataCollection.students.push(student)
-
-        fs.writeFile("./data/students.json", JSON.stringify(dataCollection.students), function (error) {
-            if (error) {
-                console.log(error);
-                reject(error);
-                return;
-            }
-
-            resolve("Student has been added!")
-        })
-    });
-}
-
 module.exports = {
     initialize,
     getAllStudent,
     getStudentByNum,
     getStudentByCourse,
-    getCourses,
-    getCourseByID,
+    updateStudent,
     addStudent,
+    getCourses,
+    getCourseByID
 };

@@ -1,5 +1,5 @@
 /*********************************************************************************
-* WEB700 – Assignment 04
+* WEB700 – Assignment 05
 * I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part
 * of this assignment has been copied manually or electronically from any other source
 * (including 3rd party web sites) or distributed to other students.
@@ -176,12 +176,12 @@ app.get("/students/add", (req, res) => {
 
 // Post Add Student
 app.post("/students/add", (req, res) => {
-    collegeData.addStudent(req.body).then(result => sendResponse(res, "Success!", result)).catch(error => sendResponse(res, "Error!", error))
+    collegeData.addStudent(req.body).then(result => sendResponse(res, "Success!", result)).catch(error => sendResponse(res, "Error!", error));
 });
 
 // Get Students
 app.get("/students", (req, res) => {
-    course = req.query.course
+    course = req.query.course;
 
     if (course) {
         collegeData.getStudentByCourse(course).then(result => {
@@ -202,27 +202,21 @@ app.get("/students", (req, res) => {
 
 // Get Student by Number
 app.get("/student/:num", (req, res) => {
-    num = req.params.num
+    num = req.params.num;
 
     collegeData.getStudentByNum(num).then(result => {
         res.render('student', {
             student: result[0]
         });
+
     }).catch(error => res.render('student', { data: { header: "Student No " + num }, message: "no results" }));
 });
 
 // Post Student by Number
 app.post("/student/update", (req, res) => {
     console.log(req.body);
-    res.redirect("/students");
 
-    num = req.params.num
-
-    collegeData.getStudentByNum(num).then(result => {
-        res.render('student', {
-            student: result[0]
-        });
-    }).catch(error => res.render('student', { data: { header: "Student No " + num }, message: "no results" }));
+    collegeData.updateStudent(req.body).then((result) => res.redirect("/students"))
 });
 
 // Get Courses
@@ -237,7 +231,7 @@ app.get("/courses", (req, res) => {
 
 // Get Course by ID
 app.get("/course/:id", (req, res) => {
-    id = req.params.id
+    id = req.params.id;
 
     collegeData.getCourseByID(id).then(result => {
         res.render('course', { course: result[0] });
@@ -250,16 +244,12 @@ app.use((err, req, res, next) => {
 });
 
 // Send Response
-function sendResponse(res, header, message, students, courses, code) {
+function sendResponse(res, header, message, code) {
     var data = {
         header: header,
         message: message,
-        isStudentsVisible: students ? true : false,
-        students: students,
-        isCoursesVisible: courses ? true : false,
-        courses: courses,
         code: code
-    }
+    };
 
     res.render('response', {
         data: data
