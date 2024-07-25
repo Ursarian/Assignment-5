@@ -239,20 +239,19 @@ app.get("/course/:id", (req, res) => {
 });
 
 // Catch Error
-app.use((err, req, res, next) => {
-    res.status(404).send("Page Not THERE, Are you sure of the path?");
+app.use((req, res) => {
+    res.status(404).render('response', {
+        header: "Error",
+        message: "Page Not THERE, Are you sure of the path?"
+    });
 });
 
 // Send Response
 function sendResponse(res, header, message, code) {
-    var data = {
+    res.render('response', {
         header: header,
         message: message,
         code: code
-    };
-
-    res.render('response', {
-        data: data
     });
 }
 
